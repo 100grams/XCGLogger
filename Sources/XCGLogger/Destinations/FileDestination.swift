@@ -216,7 +216,7 @@ open class FileDestination: BaseQueuedDestination {
 
             owner?._logln("Rotated file \(writeToFileURL.path) to \(archiveToFileURL.path)", level: .info, source: self)
             openFile()
-            closure?(true, writeToFileURL.path)
+            closure?(true, archiveToFileURL.path)
             return true
         }
 
