@@ -220,7 +220,7 @@ open class FileDestination: BaseQueuedDestination {
             return true
         }
 
-        closure?(false)
+        closure?(false, nil)
         return false
     }
 
