@@ -169,7 +169,7 @@ open class FileDestination: BaseQueuedDestination {
     ///     - true:     Log file rotated successfully.
     ///     - false:    Error rotating the log file.
     ///
-    @discardableResult open func rotateFile(to archiveToFile: Any, closure: ((_ success: Bool) -> Void)? = nil) -> Bool {
+    @discardableResult open func rotateFile(to archiveToFile: Any, closure: ((_ success: Bool, archivedFile: String?) -> Void)? = nil) -> Bool {
         var archiveToFileURL: URL? = nil
 
         if archiveToFile is NSString {
@@ -179,7 +179,7 @@ open class FileDestination: BaseQueuedDestination {
             archiveToFileURL = archiveToFile
         }
         else {
-            closure?(false)
+            closure?(false, nil)
             return false
         }
 
@@ -187,7 +187,7 @@ open class FileDestination: BaseQueuedDestination {
           let writeToFileURL = writeToFileURL {
 
             let fileManager: FileManager = FileManager.default
-            guard !fileManager.fileExists(atPath: archiveToFileURL.path) else { closure?(false); return false }
+            guard !fileManager.fileExists(atPath: archiveToFileURL.path) else { closure?(false, nil); return false }
 
             closeFile()
             haveLoggedAppDetails = false
@@ -198,7 +198,7 @@ open class FileDestination: BaseQueuedDestination {
             catch let error as NSError {
                 openFile()
                 owner?._logln("Unable to rotate file \(writeToFileURL.path) to \(archiveToFileURL.path): \(error.localizedDescription)", level: .error, source: self)
-                closure?(false)
+                closure?(false, nil)
                 return false
             }
 
@@ -216,7 +216,7 @@ open class FileDestination: BaseQueuedDestination {
 
             owner?._logln("Rotated file \(writeToFileURL.path) to \(archiveToFileURL.path)", level: .info, source: self)
             openFile()
-            closure?(true)
+            closure?(true, writeToFileURL.path)
             return true
         }
 
