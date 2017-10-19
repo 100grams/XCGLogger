@@ -51,7 +51,7 @@ open class AutoRotatingFileDestination: FileDestination {
     }
 
     /// Option: an optional closure to execute whenever the log is auto rotated
-    open var autoRotationCompletion: ((_ success: Bool, archivedFile: String?) -> Void)? = nil
+    open var autoRotationCompletion: ((_ success: Bool, _ archivedFile: String?) -> Void)? = nil
 
     /// A custom date formatter object to use as the suffix of archived log files
     internal var _customArchiveSuffixDateFormatter: DateFormatter? = nil

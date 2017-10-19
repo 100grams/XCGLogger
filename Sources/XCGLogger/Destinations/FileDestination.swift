@@ -169,7 +169,7 @@ open class FileDestination: BaseQueuedDestination {
     ///     - true:     Log file rotated successfully.
     ///     - false:    Error rotating the log file.
     ///
-    @discardableResult open func rotateFile(to archiveToFile: Any, closure: ((_ success: Bool, archivedFile: String?) -> Void)? = nil) -> Bool {
+    @discardableResult open func rotateFile(to archiveToFile: Any, closure: ((_ success: Bool, _ archivedFile: String?) -> Void)? = nil) -> Bool {
         var archiveToFileURL: URL? = nil
 
         if archiveToFile is NSString {
